@@ -11,20 +11,20 @@ import utilities.ExcelReader;
 import java.net.MalformedURLException;
 import java.util.Hashtable;
 
-public class AddCustomerTest extends TestBase{
+public class OpenAccountTest extends TestBase{
 
 
     @Test(dataProviderClass = DataProviders.class, dataProvider = "bankManagerDP")
-    public void AddCustomerTest(Hashtable<String, String> data) throws MalformedURLException {
+    public void openAccountTest(Hashtable<String, String> data) throws MalformedURLException {
 
         super.setUp();
-        test = rep.startTest("AddCustomerTest  " + data.get("browser"));
+        test = rep.startTest("OpenAccountTest  " + data.get("browser"));
         setExtentTest(test);
         ExcelReader excel = new ExcelReader(Constans.SUITE1_XL_PATH);
-        DataUtil.checkExecution("BankManagerSuite", "AddCustomerTest", data.get("Runmode"),excel);
+        DataUtil.checkExecution("BankManagerSuite", "OpenAccountTest", data.get("Runmode"),excel);
         openBrowser(data.get("browser"));
         navigate("testsiteurl");
-        reportPass("Add customer test pass");
+        reportPass("Open account test pass");
 
     }
 

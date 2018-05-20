@@ -1,5 +1,8 @@
 package datadriven.base;
 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
@@ -10,9 +13,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import sun.rmi.runtime.Log;
+import utilities.ExtentMaganer;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,8 +47,12 @@ public class TestBase {
     public Logger log = Logger.getLogger("devpinoyLogger");
     public WebDriverWait wait;
     public WebElement dropdown;
+    public ExtentReports rep = ExtentMaganer.getInstance();
+    public ExtentTest test;
+    public static ThreadLocal<ExtentTest> exTest = new ThreadLocal<ExtentTest>();
 
-    @BeforeSuite
+
+
     public void setUp(){
 
         if (driver == null){
@@ -83,7 +92,13 @@ public class TestBase {
         dr.set(driver);
     }
 
+    public void setExtentTest(ExtentTest et){
+        exTest.set(et);
+    }
 
+    public ExtentTest getExtentTest (){
+        return exTest.get();
+    }
 
     public void openBrowser(String browser) throws MalformedURLException {
 
@@ -113,10 +128,23 @@ public class TestBase {
         setWebDriver(driver);
         getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(Config.getProperty("implicit.wait")), TimeUnit.SECONDS);
         getDriver().manage().window().maximize();
+        getExtentTest().log(LogStatus.INFO, "Browser opened successfully " + browser);
     }
+
+    public void reportPass (String msg){
+        getExtentTest().log(LogStatus.PASS, msg);
+    }
+
+
+    public void reportFailure (String msg){
+        getExtentTest().log(LogStatus.FAIL, msg);
+        Assert.fail(msg);
+    }
+
 
     public void navigate(String url){
         getDriver().get(Config.getProperty(url));
+        getExtentTest().log(LogStatus.INFO, "Navigating to " + Config.getProperty(url));
     }
 
 
