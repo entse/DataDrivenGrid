@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -48,7 +49,7 @@ public class TestBase {
         if (driver == null){
 
             try {
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\Config.xml");
+                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\Config.properties");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -59,7 +60,7 @@ public class TestBase {
             }
 
             try {
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\OR.xml");
+                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\properties\\OR.properties");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -89,27 +90,33 @@ public class TestBase {
         DesiredCapabilities cap = null;
 
         if(browser.equals("firefox")){
+
             cap = DesiredCapabilities.firefox();
             cap.setBrowserName("firefox");
             cap.setPlatform(Platform.ANY);
+
         } else if(browser.equals("chrome")){
+
             cap = DesiredCapabilities.chrome();
             cap.setBrowserName("chrome");
             cap.setPlatform(Platform.ANY);
+
         } else if(browser.equals("iexplore")){
+
             cap = DesiredCapabilities.internetExplorer();
             cap.setBrowserName("iexplore");
             cap.setPlatform(Platform.WINDOWS);
+
         }
 
-        driver = new RemoteWebDriver(new URL("http://192.168.0.100:4444/wd/hub"), cap);
+        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
         setWebDriver(driver);
         getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(Config.getProperty("implicit.wait")), TimeUnit.SECONDS);
         getDriver().manage().window().maximize();
     }
 
     public void navigate(String url){
-        getDriver().get(Config.getProperty("testsiteurl"));
+        getDriver().get(Config.getProperty(url));
     }
 
 
@@ -160,9 +167,4 @@ public class TestBase {
         }
     }
 
-    @AfterSuite
-    public void tearDown(){
-        getDriver().quit();
-
-    }
 }

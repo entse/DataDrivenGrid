@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 public class DataProviders {
 
-    @DataProvider(name = "bankManagerDP")
+    @DataProvider(name = "bankManagerDP", parallel = true)
     public Object[][] getDataSuite1(Method m){
 
         System.out.println(m.getName());
