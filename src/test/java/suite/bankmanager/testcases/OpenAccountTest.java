@@ -24,6 +24,11 @@ public class OpenAccountTest extends TestBase{
         DataUtil.checkExecution("BankManagerSuite", "OpenAccountTest", data.get("Runmode"),excel);
         openBrowser(data.get("browser"));
         navigate("testsiteurl");
+        click("bmlBtn_XPATH");
+        click("openaccountBtn_XPATH");
+        select("customer_XPATH", data.get("customer"));
+        select("currency_XPATH", data.get("currency"));
+        click("processBtn_XPATH");
         reportPass("Open account test pass");
 
     }
