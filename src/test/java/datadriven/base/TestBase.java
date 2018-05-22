@@ -52,6 +52,14 @@ public class TestBase {
     public static ThreadLocal<ExtentTest> exTest = new ThreadLocal<ExtentTest>();
     public static String screenshotPath;
     public static String screenshotName;
+    public String browser;
+
+
+    public void addLog(String message){
+        log.debug("Thread: " + getThreadValue(dr.get())+ " Browser: " + browser + " " + message);
+    }
+
+
 
     public void captureScreenshot() {
 
@@ -119,8 +127,20 @@ public class TestBase {
         return exTest.get();
     }
 
+    public String getThreadValue(Object value){
+
+        String text = value.toString();
+        String[] newText = text.split(" ");
+        String text2 = newText[newText.length - 1].replace("(","").replace(")","");
+        String[] newText2 = text2.split("-");
+        String reqText = newText2[newText2.length - 1];
+        return reqText;
+    }
+
+
     public void openBrowser(String browser) throws MalformedURLException {
 
+        this.browser = browser;
         DesiredCapabilities cap = null;
 
         if(browser.equals("firefox")){
@@ -148,6 +168,9 @@ public class TestBase {
         getDriver().manage().timeouts().implicitlyWait(Integer.parseInt(Config.getProperty("implicit.wait")), TimeUnit.SECONDS);
         getDriver().manage().window().maximize();
         getExtentTest().log(LogStatus.INFO, "Browser opened successfully " + browser);
+
+        System.out.println("Thread value is " + getThreadValue(dr.get()));
+
     }
 
     public void reportPass (String msg){
@@ -177,7 +200,9 @@ public class TestBase {
             getDriver().findElement(By.xpath(OR.getProperty(locator))).click();
         } else if (locator.endsWith("_ID")) {
             getDriver().findElement(By.id(OR.getProperty(locator))).click();
-        }} catch (Throwable t) {
+        }
+        addLog("Clicking on the element " + locator);
+        } catch (Throwable t) {
             reportFailure("Failing while clicking on an element " + locator);
         }
 
@@ -194,7 +219,9 @@ public class TestBase {
             getDriver().findElement(By.xpath(OR.getProperty(locator))).sendKeys(value);
         } else if (locator.endsWith("_ID")) {
             getDriver().findElement(By.id(OR.getProperty(locator))).sendKeys(value);
-        }} catch (Throwable t) {
+        }
+            addLog("Typing in an element " + locator);
+        } catch (Throwable t) {
             reportFailure("Failing while typing in an element " + locator);
         }
 
