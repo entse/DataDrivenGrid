@@ -69,7 +69,7 @@ public class TestBase {
         screenshotName = d.toString().replace(":", "_").replace(" ", "_") + ".jpg";
 
         try {
-            FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir") + "\\target\\surefire-reports\\html\\" + screenshotName));
+            FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir") + "\\reports\\" + screenshotName));
         } catch (IOException e) {
             e.printStackTrace();
         }

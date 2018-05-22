@@ -14,10 +14,10 @@ public class ExtentMaganer {
         if (extent == null){
 
             Date d = new Date();
-            String fileName = d.toString().replace(":","_").replace(" ", "_") + ".html";
+            String fileName = "jenkins_" + d.toString().replace(":","_").replace(" ", "_") + ".html";
 
 
-            extent = new ExtentReports(System.getProperty("user.dir")+"\\target\\surefire-reports\\html\\"+ fileName, true, DisplayOrder.OLDEST_FIRST);
+            extent = new ExtentReports(System.getProperty("user.dir")+"\\reports\\"+ fileName, true, DisplayOrder.OLDEST_FIRST);
             extent.loadConfig(new File (System.getProperty("user.dir") + "\\src\\test\\recources\\extentconfig\\ReportsConfig.xml"));
         }
         return extent;

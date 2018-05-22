@@ -143,7 +143,7 @@
                 <configuration>
                     <testFailureIgnore> false </testFailureIgnore>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/runner/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/runner/bankmanagersuite.xml</suiteXmlFile>
 
                     </suiteXmlFiles>
                 </configuration>
